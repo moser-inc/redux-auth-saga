@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { call, put, take } from 'redux-saga/effects'
+import { call, put, take, race } from 'redux-saga/effects'
 import { getToken, setToken, clearToken } from './storage'
 import { authenticate } from './api'
 
@@ -18,8 +18,8 @@ function* signout(error, onLogoutAction) {
 function* authorize(options, credentialsOrToken, redirectTo) {
   // Wait for response from server or signout, whichever comes first
   const { response } = yield race({
-    response: call(authenticate, credentialsOrToken),
-    signout: take(options.signoutAction),
+    response: call(authenticate, options.endpoint, credentialsOrToken),
+    signout: take(options.logoutActionType),
   });
 
   // user signed out or response contained errors
@@ -29,7 +29,7 @@ function* authorize(options, credentialsOrToken, redirectTo) {
   }
 
   // store the token in localStorage
-  yield call(setToken, response.token);
+  yield call(setToken, options.storageType, response.token);
 
   // dispatch auth success
   // yield put(options.onLoginAction(response.token));
@@ -44,12 +44,21 @@ function* authorize(options, credentialsOrToken, redirectTo) {
 /*
 * Primary authentication flow
 */
-export function* authSaga(options) {
+/*
+    options = {
+        storageType: 'localStorage|sessionStorage',
+        loginActionType: 'String',
+        logoutActionType: 'String',
+        onLoginAction: 'Object',
+        onLogoutAction: 'Object'
+    }
+*/
+export default function* authSaga(options) {
   // Check if a token exists when app starts
-  let token = yield call(getToken(options.storageType));
+  let token = yield call(getToken, options.storageType);
 
   // Expire the token immediately if we found one
-  if (token) token.expiresIn = 0;
+  if (token && typeof token === 'object') token.expiresIn = 0;
 
   while (true) {
     // If there wasn't a token, wait for the user to sign in
@@ -65,7 +74,7 @@ export function* authSaga(options) {
     while (token) {
       // Wait for either token expiration or signout, whichever comes first
       const { expired } = yield race({
-        expired: delay(token.expiresIn * 1000),
+        expired: delay(token.expires_in * 1000),
         signout: take(options.logoutActionType),
       });
 
@@ -79,17 +88,4 @@ export function* authSaga(options) {
 
     if (!token) yield call(signout, 'Signed out', options.onLogoutAction);
   }
-}
-
-/*
-    options = {
-        storageType: 'localStorage|sessionStorage',
-        loginActionType: 'String',
-        logoutActionType: 'String',
-        onLoginAction: 'Object',
-        onLogoutAction: 'Object'
-    }
-*/
-export default function authSaga = (options){
-    return authSaga(options)
 }

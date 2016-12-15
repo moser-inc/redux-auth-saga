@@ -5,7 +5,7 @@ const storageTypes = {
 
 const getStorage = type => {
     if(!type || storageTypes[type]){
-        type = 'localStorage';
+        type = 'sessionStorage';
     }
 
     return window[type];
@@ -13,4 +13,4 @@ const getStorage = type => {
 
 export const setToken = (type, token) => getStorage(type).setItem('token', token);
 export const getToken = (type, token) => getStorage(type).getItem('token', token);
-export const clearToken = (type) => getStorage(type).removeItem('token');
+export const clearToken = type => getStorage(type).removeItem('token');
