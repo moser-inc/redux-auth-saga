@@ -1,0 +1,20 @@
+{
+  "name": "redux-auth-saga",
+  "version": "0.0.1",
+  "description": "Authorization Saga design for Redux",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "redux",
+    "sagas",
+    "authentication"
+  ],
+  "author": "Keenan Jaenicke",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "redux-saga": "^0.13.0"
+  }
+}
