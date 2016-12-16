@@ -51,5 +51,4 @@ Attaching `redux-auth-saga` to your root saga
 |  onLoginAction | Function  | Yes  |  Action to dispatch when login is successful |
 |  onLogoutAction | Function  | Yes  |  Action to dispatch when logout is successful  |
 |  endpoint | String  | Yes  |  Authentication endpoint |
-|  redirectTo | Function  | Yes  |  Used to redirect back to unauthenticated page after successful login |
 |  redirectToOnLogout | Function  | Yes  |  Used to redirect to after logout |

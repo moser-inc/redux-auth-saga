@@ -1,61 +1,11 @@
 import 'babel-polyfill'
 import { delay } from 'redux-saga'
-import { call, put, take, race } from 'redux-saga/effects'
-import { getToken, setToken, clearToken } from './storage'
-import { authenticate } from './api'
+import { call, take, race } from 'redux-saga/effects'
+import { getToken } from './storage'
 
-/*
-* Clears token from localStorage, informs store of signout and redirects to login
-*/
-function* signout(error, options) {
-  yield call(clearToken);
-  yield put(options.onLogoutAction(error));
+import authorize from './authorize'
+import signout from './signout'
 
-  if(options.redirectToOnLogout){
-      yield call(options.redirectToOnLogout);
-  }
-}
-
-/*
-* Calls the authService and stores the token, cancels if a signout occurs
-*/
-function* authorize(options, credentialsOrToken, redirectTo) {
-  // Wait for response from server or signout, whichever comes first
-  const { response } = yield race({
-    response: call(authenticate, options.endpoint, credentialsOrToken),
-    signout: take(options.logoutActionType),
-  });
-
-  // user signed out or response contained errors
-  if (!response || !response.token) {
-    yield call(options.signoutAction, response ? response.error : 'Signed out');
-    return null;
-  }
-
-  // store the token in localStorage
-  yield call(setToken, options.storageType, response.token);
-
-  // dispatch auth success
-  yield put(options.onLoginAction(response.token));
-
-  // redirect if specified
-  if (redirectTo) yield call(redirectTo);
-
-  // return the token
-  return response.token;
-}
-
-/*
-    options = {
-        storageType: 'localStorage|sessionStorage',
-        loginActionType: 'String',
-        logoutActionType: 'String',
-        onLoginAction: 'Object',
-        onLogoutAction: 'Object',
-        redirectTo: 'Function' (Used to redirect back to unauthenticated page after succesful login),
-        redirectToOnLogout: 'Function (Used to redirect to after logout)'
-    }
-*/
 /*
 * Primary authentication flow
 */
@@ -66,17 +16,19 @@ export default function* authSaga(options) {
   // Expire the token immediately if we found one
   if (token && typeof token === 'object') token.expiresIn = 0;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     // If there wasn't a token, wait for the user to sign in
     if (!token) {
       let { payload: { credentials, redirectTo } } = yield take(options.loginActionType);
-      token = yield call(authorize, options, credentials, options.redirectTo || null);
+      token = yield call(authorize, options, credentials, redirectTo || null);
     }
 
     // Login failed, wait until next sign in
     if (!token) continue;
 
     // Run as long as the user is signed in
+    // eslint-disable-next-line no-constant-condition
     while (token) {
       // Wait for either token expiration or signout, whichever comes first
       const { expired } = yield race({

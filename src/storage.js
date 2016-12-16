@@ -13,7 +13,7 @@ const getStorage = type => {
 
 export const setToken = (type, token) => getStorage(type).setItem('token', JSON.stringify(token));
 
-export const getToken = (type, token) => {
+export const getToken = (type) => {
     const t = getStorage(type).getItem('token');
 
     if(t) return JSON.parse(t);

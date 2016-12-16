@@ -18,7 +18,14 @@ module.exports = {
             presets: ['es2015', 'stage-2']
           }
         }
-      ]
+    ],
+    preLoaders: [
+        {
+            test: /\.js$/,
+            loader: "eslint-loader",
+            exclude: /node_modules/
+        }
+    ]
   },
   plugins: [
       new webpack.optimize.UglifyJsPlugin()
