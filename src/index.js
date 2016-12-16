@@ -32,7 +32,7 @@ function* authorize(options, credentialsOrToken, redirectTo) {
   yield call(setToken, options.storageType, response.token);
 
   // dispatch auth success
-  // yield put(options.onLoginAction(response.token));
+  yield put(options.onLoginAction(response.token));
 
   // redirect if specified
   if (redirectTo) yield call(nav.pushRoute, redirectTo);
