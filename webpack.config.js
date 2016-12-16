@@ -4,7 +4,9 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: './dist/'
+        path: './dist/',
+        library: 'redux-auth-saga',
+        libraryTarget: 'umd'
     },
     module: {
       loaders: [

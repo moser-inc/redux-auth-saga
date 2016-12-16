@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import { delay } from 'redux-saga'
 import { call, put, take, race } from 'redux-saga/effects'
 import { getToken, setToken, clearToken } from './storage'
@@ -6,10 +7,13 @@ import { authenticate } from './api'
 /*
 * Clears token from localStorage, informs store of signout and redirects to login
 */
-function* signout(error, onLogoutAction) {
-  yield call(removeToken);
-  yield put(onLogoutAction(error));
-  yield call(nav.pushRoute, '/login');
+function* signout(error, options) {
+  yield call(clearToken);
+  yield put(options.onLogoutAction(error));
+
+  if(options.redirectToOnLogout){
+      yield call(options.redirectToOnLogout);
+  }
 }
 
 /*
@@ -35,23 +39,25 @@ function* authorize(options, credentialsOrToken, redirectTo) {
   yield put(options.onLoginAction(response.token));
 
   // redirect if specified
-  if (redirectTo) yield call(nav.pushRoute, redirectTo);
+  if (redirectTo) yield call(redirectTo);
 
   // return the token
   return response.token;
 }
 
 /*
-* Primary authentication flow
-*/
-/*
     options = {
         storageType: 'localStorage|sessionStorage',
         loginActionType: 'String',
         logoutActionType: 'String',
         onLoginAction: 'Object',
-        onLogoutAction: 'Object'
+        onLogoutAction: 'Object',
+        redirectTo: 'Function' (Used to redirect back to unauthenticated page after succesful login),
+        redirectToOnLogout: 'Function (Used to redirect to after logout)'
     }
+*/
+/*
+* Primary authentication flow
 */
 export default function* authSaga(options) {
   // Check if a token exists when app starts
@@ -64,7 +70,7 @@ export default function* authSaga(options) {
     // If there wasn't a token, wait for the user to sign in
     if (!token) {
       let { payload: { credentials, redirectTo } } = yield take(options.loginActionType);
-      token = yield call(authorize, options, credentials, redirectTo);
+      token = yield call(authorize, options, credentials, options.redirectTo || null);
     }
 
     // Login failed, wait until next sign in
@@ -86,6 +92,6 @@ export default function* authSaga(options) {
       }
     }
 
-    if (!token) yield call(signout, 'Signed out', options.onLogoutAction);
+    if (!token) yield call(signout, 'Signed out', options);
   }
 }
