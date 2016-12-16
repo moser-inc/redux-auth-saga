@@ -5,7 +5,8 @@
     "main": "./dist/bundle.js",
     "scripts": {
         "build": "webpack -p --config webpack.config.js",
-        "test": "eslint src/"
+        "lint": "eslint src/",
+        "test": "ava"
     },
     "keywords": [
         "redux",
@@ -27,6 +28,8 @@
         "babel-preset-stage-2": "^6.18.0",
         "eslint": "^3.12.2",
         "eslint-loader": "^1.6.1",
+        "jsdom": "^9.8.3",
+        "mocha": "^3.2.0",
         "webpack": "^1.14.0"
     },
     "eslintConfig": {

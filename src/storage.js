@@ -4,7 +4,7 @@ const storageTypes = {
 };
 
 const getStorage = type => {
-    if(!type || storageTypes[type]){
+    if(!type && !storageTypes[type]){
         type = 'sessionStorage';
     }
 
