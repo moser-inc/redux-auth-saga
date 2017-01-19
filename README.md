@@ -27,7 +27,6 @@ Attaching `redux-auth-saga` to your root saga
         onLoginAction: userLoginSuccess,
         onLogoutAction: userLogout,
         endpoint: AUTH_URL,
-        redirectTo: () => {},
         redirectToOnLogout: () => {}
     };
 
