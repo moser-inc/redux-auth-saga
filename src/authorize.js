@@ -9,12 +9,12 @@ export default function* authorize(options, credentialsOrToken, redirectTo) {
   // Wait for response from server or signout, whichever comes first
   const { response } = yield race({
     response: call(authenticate, options.endpoint, credentialsOrToken),
-    signout: take(options.logoutActionType),
+    signout: take(options.logoutActionType)
   });
 
   // user signed out or response contained errors
   if (!response || !response.token) {
-    yield call(options.signoutAction, response ? response.error : 'Signed out');
+    yield call(options.onLogoutAction, response ? response.error : 'Signed out');
     return null;
   }
 

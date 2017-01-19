@@ -14,7 +14,7 @@ export default function* authSaga(options) {
   let token = yield call(getToken, options.storageType);
 
   // Expire the token immediately if we found one
-  if (token && typeof token === 'object') token.expiresIn = 0;
+  if (token && typeof token === 'object') token.expires_in = 0;
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
