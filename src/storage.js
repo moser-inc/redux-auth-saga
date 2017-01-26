@@ -3,13 +3,13 @@ const storageTypes = {
     'sessionStorage': 'sessionStorage'
 };
 
-const getStorage = type => {
+export const getStorage = type => {
     if(!type && !storageTypes[type]){
         type = 'sessionStorage';
     }
 
     return window[type];
-}
+};
 
 export const setToken = (type, token) => getStorage(type).setItem('token', JSON.stringify(token));
 
