@@ -1,4 +1,4 @@
-### redux-auth-saga
+### redux-auth-saga <img src="https://travis-ci.org/moser-inc/redux-auth-saga.svg" alt="build:">
 ---
 
 Redux saga designed to handle a simple token-based authentication flow.  This package was inspired by [this thread](https://github.com/redux-saga/redux-saga/issues/14) by [Yassine Elouafi](https://github.com/yelouafi)
