@@ -1,7 +1,7 @@
 ### redux-auth-saga
 ---
 
-Redux saga designed to handle a simple token-based authentication flow
+Redux saga designed to handle a simple token-based authentication flow.  This package was inspired by [this thread](https://github.com/redux-saga/redux-saga/issues/14) by [Yassine Elouafi](https://github.com/yelouafi)
 
 #### Installation
 
