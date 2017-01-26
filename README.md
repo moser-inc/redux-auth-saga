@@ -5,9 +5,7 @@ Redux saga designed to handle a simple token-based authentication flow
 
 #### Installation
 
-Add the following entry to your `package.json` file `"redux-auth-saga": "git+ssh://git@bitbucket.org:KeenanJae/redux-auth-saga.git"`
-
-        $ npm install
+        $ npm install --save redux-auth-saga
 
 #### Building
 
