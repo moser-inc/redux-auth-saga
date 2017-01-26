@@ -5,7 +5,8 @@
     "main": "./dist/bundle.js",
     "scripts": {
         "build": "webpack -p --config webpack.config.js",
-        "lint": "eslint src/"
+        "test":"eslint src/*.js",
+        "lint": "eslint src/*.js"
     },
     "keywords": [
         "redux",
