@@ -1,6 +1,6 @@
 {
     "name": "redux-auth-saga",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Authorization Saga designed for Redux",
     "main": "./dist/bundle.js",
     "scripts": {
