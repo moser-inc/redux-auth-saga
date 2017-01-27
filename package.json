@@ -33,16 +33,6 @@
         "mocha": "^3.2.0",
         "webpack": "^1.14.0"
     },
-    "eslintConfig": {
-        "extends": "eslint:recommended",
-        "env": {
-            "browser": true
-        },
-        "parserOptions": {
-            "sourceType": "module",
-            "ecmaVersion": 6
-        }
-    },
     "ava": {
         "files": [
             "./test/*.test.js"

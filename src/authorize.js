@@ -10,23 +10,23 @@ export default function* authorize(options, credentialsOrToken, redirectTo) {
   const { response } = yield race({
     response: call(authenticate, options.endpoint, credentialsOrToken),
     signout: take(options.logoutActionType)
-  });
+  })
 
   // user signed out or response contained errors
   if (!response || !response.token) {
-    yield call(options.onLogoutAction, response ? response.error : 'Signed out');
-    return null;
+    yield call(options.onLogoutAction, response ? response.error : 'Signed out')
+    return null
   }
 
   // store the token in localStorage
-  yield call(setToken, options.storageType, response.token);
+  yield call(setToken, options.storageType, response.token)
 
   // dispatch auth success
-  yield put(options.onLoginAction(response.token));
+  yield put(options.onLoginAction(response.token))
 
   // redirect if specified
-  if (redirectTo) yield call(redirectTo);
+  if (redirectTo) yield call(redirectTo)
 
   // return the token
-  return response.token;
+  return response.token
 }

@@ -1,24 +1,24 @@
 const storageTypes = {
-    'localStorage': 'localStorage',
-    'sessionStorage': 'sessionStorage'
-};
+  'localStorage': 'localStorage',
+  'sessionStorage': 'sessionStorage'
+}
 
 export const getStorage = type => {
-    if(!type && !storageTypes[type]){
-        type = 'sessionStorage';
-    }
+  if(!type && !storageTypes[type]){
+    type = 'sessionStorage'
+  }
 
-    return window[type];
-};
+  return window[type]
+}
 
-export const setToken = (type, token) => getStorage(type).setItem('token', JSON.stringify(token));
+export const setToken = (type, token) => getStorage(type).setItem('token', JSON.stringify(token))
 
 export const getToken = (type) => {
-    const t = getStorage(type).getItem('token');
+  const t = getStorage(type).getItem('token')
 
-    if(t) return JSON.parse(t);
+  if(t) return JSON.parse(t)
 
-    return null;
-};
+  return null
+}
 
-export const clearToken = type => getStorage(type).removeItem('token');
+export const clearToken = type => getStorage(type).removeItem('token')
