@@ -45,7 +45,10 @@
         "concurrency": 5,
         "failFast": true,
         "powerAssert": false,
-        "require": ["babel-register", "./test/setup.js"],
+        "require": [
+            "babel-register",
+            "./test/setup.js"
+        ],
         "babel": "inherit"
     },
     "babel": {
