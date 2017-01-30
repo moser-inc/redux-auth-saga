@@ -50,6 +50,7 @@
     },
     "babel": {
         "plugins": [
+            "babel-plugin-transform-regenerator",
             "transform-regenerator"
         ],
         "presets": [

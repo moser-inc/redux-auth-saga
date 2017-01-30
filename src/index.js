@@ -12,7 +12,7 @@ import validateOptions from './validateOptions'
 */
 export default function* authSaga(options) {
   validateOptions(options)
-  
+
   // Check if a token exists when app starts
   let token = yield call(getToken, options.storageType)
 
