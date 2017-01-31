@@ -5,36 +5,36 @@ Redux saga designed to handle a simple token-based authentication flow.  This pa
 
 #### Installation
 
-        $ npm install --save redux-auth-saga
+    $ npm install --save redux-auth-saga
 
 #### Building
 
-        $ npm run build
+    $ npm run build
 
 #### Example usage
 
 Attaching `redux-auth-saga` to your root saga
 
 ```js
-    import 'redux-auth-saga' from 'redux-auth-saga'
+import 'redux-auth-saga' from 'redux-auth-saga'
 
-    const options = {
-        storageType: 'sessionStorage',
-        loginActionType: USER_LOGIN,
-        logoutActionType: USER_LOGOUT,
-        onLoginAction: userLoginSuccess,
-        onLogoutAction: userLogout,
-        endpoint: AUTH_URL,
-        redirectToOnLogout: () => {}
-    };
+const options = {
+    storageType: 'sessionStorage',
+    loginActionType: 'USER_LOGIN',
+    logoutActionType: 'USER_LOGOUT',
+    onLoginAction: userLogin,
+    onLogoutAction: userLogout,
+    endpoint: 'http://localhost/auth',
+    redirectToOnLogout: () => {}
+}
 
-    export default function* rootSaga() {
-        yield [
-            fork(reduxAuthSaga, options),
-            fork(anotherSaga),
-            ...
-        ];
-    }
+export default function* rootSaga() {
+    yield [
+        fork(reduxAuthSaga, options),
+        fork(anotherSaga),
+        ...
+    ];
+}
 ```
 
 
