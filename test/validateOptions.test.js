@@ -35,7 +35,8 @@ test('should throw when onLogoutAction is missing', t => {
     validateOptions({
       loginActionType: 'LOGIN_ACTION_TYPE',
       logoutActionType: 'LOGOUT_ACTION_TYPE',
-      onLoginAction: () => {}
+      onLoginAction: () => {},
+      onLoginFailedAction: () => {}
     })
   })
 
@@ -48,7 +49,8 @@ test('should throw when endpoint is missing', t => {
       loginActionType: 'LOGIN_ACTION_TYPE',
       logoutActionType: 'LOGOUT_ACTION_TYPE',
       onLoginAction: () => {},
-      onLogoutAction: () => {}
+      onLogoutAction: () => {},
+      onLoginFailedAction: () => {}
     })
   })
 
@@ -60,6 +62,7 @@ test('should not throw with valid options', t => {
     loginActionType: 'LOGIN_ACTION_TYPE',
     logoutActionType: 'LOGOUT_ACTION_TYPE',
     onLoginAction: () => {},
+    onLoginFailedAction: () => {},
     onLogoutAction: () => {},
     endpoint: 'https://app/auth'
   }

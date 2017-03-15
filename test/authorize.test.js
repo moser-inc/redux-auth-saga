@@ -9,6 +9,7 @@ const opts = {
   logoutActionType: 'LOGOUT',
   onLogoutAction: error => ({ type: 'LOGOUT_REQUEST', error }),
   storageType: 'localStorage',
+  onLoginFailedAction: error => ({ type: 'LOGIN_FAILED', error }),
   onLoginAction: token => ({ type: 'LOGIN_SUCCESS', token }),
 }
 
@@ -17,8 +18,9 @@ const credentialsOrToken = {
   password: '1337$tr33t'
 }
 
-test('should call onLogoutAction when auth fails', t => {
+test('should call onLoginFailedAction when auth fails', t => {
   const generator = authorize(opts, credentialsOrToken)
+  const mockResponse = { response: { error: 'err' } }
   let next = generator.next()
 
   t.deepEqual(next.value, race({
@@ -27,8 +29,8 @@ test('should call onLogoutAction when auth fails', t => {
   }))
 
   // Login action was dispatched prior to auth response OR login failed
-  next = generator.next(opts.logoutActionType)
-  t.deepEqual(next.value, call(opts.onLogoutAction, 'Signed out'))
+  next = generator.next(mockResponse)
+  t.deepEqual(next.value, put(opts.onLoginFailedAction(mockResponse.response.error)))
   // Done
   next = generator.next()
   t.true(next.done)

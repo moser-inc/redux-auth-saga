@@ -14,7 +14,7 @@ export default function* authorize(options, credentialsOrToken, redirectTo) {
 
   // user signed out or response contained errors
   if (!response || !response.token) {
-    yield call(options.onLogoutAction, response ? response.error : 'Signed out')
+    yield put(options.onLoginFailedAction(response ? response.error : 'Signed out'))
     return null
   }
 
